@@ -1,11 +1,7 @@
-import { Component } from "@angular/core";
-import { dataPokemons, getPokemonImageUri } from "./mockdata";
-
-type PokemonType = {
-    name: string,
-    url: string,
-    id: number
-}
+import { Component, OnInit } from "@angular/core";
+import { pokemonColorMap } from './pokemonColorHash';
+import { Pokemon } from '../utils/types';
+import { PokemonService } from "./pokemon.service";
 
 @Component({
     selector: 'pokemon-list',
@@ -13,24 +9,47 @@ type PokemonType = {
     styleUrls: ['./pokemon-list.component.less']
 })
 
-export class PokemonListComponent {
-    pokemons: PokemonType[];
-    private pokemonList: PokemonType [] = [];
+export class PokemonListComponent implements OnInit {
+    pokemons: Pokemon[] = [];
+    private pokemonList: Pokemon [] = [];
+    search: string = '';
 
-    constructor() {
-        this.pokemonList = dataPokemons.results.map(this.normalizePokemon);
+    constructor(private pokemonService: PokemonService) {}
+
+    ngOnInit(): void {
+        this.pokemonList = this.pokemonService.getPokemonList();
         this.pokemons = this.pokemonList;
+    }   
+
+    getImageUri(pokemon: Pokemon) {
+        return this.pokemonService.getPokemonImageUri(this.getPokemonIdFromUrl(pokemon.url));
     }
 
-    private normalizePokemon(pokemon: { name: string, url: string }, index: number): PokemonType {
-        return ({
-            ...pokemon,
-            id: index + 1
-        })
+    getPokemonColor(pokemon: Pokemon) {
+        const id = this.getPokemonIdFromUrl(pokemon.url);
+        return pokemonColorMap[id];
     }
 
-    getImageUri(pokemon: PokemonType) {
-        return getPokemonImageUri(pokemon.id)
+    getPokemonIdFromUrl(url: string) {
+        const parseUrl = url.split('/'),
+            id = parseUrl[parseUrl.length - 2];
+        return +id;
+    }
+
+    getTextColor(pokemon: Pokemon) {
+        const pokemonColor = this.getPokemonColor(pokemon);
+
+        switch(pokemonColor) {
+            case '#fbf6f6':
+            case '#f0f060e6':
+                return 'black';
+            default:
+                return 'white';
+        }
+    }
+
+    searchPokemons(){
+        this.pokemons = this.pokemonList.filter(item => !item.name.indexOf(this.search));
     }
 
 }
