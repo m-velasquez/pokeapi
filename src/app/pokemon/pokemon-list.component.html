@@ -4,6 +4,18 @@
         <input type="text" [(ngModel)]="search" (ngModelChange)="searchPokemons()">
     </div>
 
+    <div class="nextPokemons">
+        <span>Offset: </span>
+        <input type="number" [(ngModel)]="offset">
+        <span>Limit: </span>
+        <input type="number" [(ngModel)]="limit">
+        <span>
+            <button *ngIf="pokemons.length" (click)="nextPokemons()">
+                Next
+            </button>
+        </span>
+    </div>
+
     <div>
         <div class="pokemons">
             <div class="pokemon" [ngStyle]="{'background-color': getPokemonColor(pokemon)}"
@@ -13,10 +25,9 @@
             </div>
         </div>
 
-        <div class="not-found" *ngIf="!pokemons.length">
-            <h2>No Pokemons to display</h2>
-            <img src="https://cdn3.josefacchin.com/wp-content/uploads/2018/09/http-not-found-error-404.png">
-        </div>
+        <not-found *ngIf="!pokemons.length"></not-found>
+
+
 
     </div>
 </div>

@@ -3,6 +3,7 @@ import { pokemonColorMap } from './pokemonColorHash';
 import { Pokemon } from '../utils/types';
 import { PokemonService } from "./pokemon.service";
 
+
 @Component({
     selector: 'pokemon-list',
     templateUrl: './pokemon-list.component.html',
@@ -11,15 +12,41 @@ import { PokemonService } from "./pokemon.service";
 
 export class PokemonListComponent implements OnInit {
     pokemons: Pokemon[] = [];
-    private pokemonList: Pokemon [] = [];
+    private pokemonsList: Pokemon[] = [];
     search: string = '';
+    offset: number = +'';
+    limit: number = +'';
 
     constructor(private pokemonService: PokemonService) {}
 
     ngOnInit(): void {
-        this.pokemonList = this.pokemonService.getPokemonList();
-        this.pokemons = this.pokemonList;
+        
+        this.getPokemons();
+        this.pokemonsList = this.pokemons;
     }   
+
+    // {
+    //     result: [
+    //         {
+    //             name,
+    //             url
+    //         }
+    //     ]
+    // }
+
+    getPokemons() {
+        this.pokemonService.getPokemonList(this.offset, this.limit)
+        .subscribe((data: {results: Pokemon[]}) => this.pokemons = data.results);
+    }
+
+    //getPokemons() {
+    //    this.pokemonService.getPokemonList(this.offset, this.limit)
+    //        .then(data => this.pokemons = data)
+    //}
+
+    // async getPokemons() : Promise<void> {
+    //     this.pokemons = await this.pokemonService.getPokemonList(this.offset, this.limit);
+    // }
 
     getImageUri(pokemon: Pokemon) {
         return this.pokemonService.getPokemonImageUri(this.getPokemonIdFromUrl(pokemon.url));
@@ -48,8 +75,13 @@ export class PokemonListComponent implements OnInit {
         }
     }
 
+    nextPokemons() : void {
+        this.offset += this.limit;
+        this.getPokemons();
+    }
+
     searchPokemons(){
-        this.pokemons = this.pokemonList.filter(item => !item.name.indexOf(this.search));
+        this.pokemons = this.pokemonsList.filter(item => !item.name.indexOf(this.search));
     }
 
 }
