@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { pokemonColorMap } from './pokemonColorHash';
 import { Pokemon } from '../utils/types';
 import { PokemonService } from "./pokemon.service";
+import { Router } from "@angular/router";
 
 
 @Component({
@@ -14,10 +15,11 @@ export class PokemonListComponent implements OnInit {
     pokemons: Pokemon[] = [];
     private pokemonsList: Pokemon[] = [];
     search: string = '';
-    offset: number = +'';
+    offsetUI: number = +'';
     limit: number = +'';
+    offset: number = this.offsetUI;
 
-    constructor(private pokemonService: PokemonService) {}
+    constructor(private pokemonService: PokemonService, private router: Router) {}
 
     ngOnInit(): void {
         
@@ -37,6 +39,11 @@ export class PokemonListComponent implements OnInit {
     getPokemons() {
         this.pokemonService.getPokemonList(this.offset, this.limit)
         .subscribe((data: {results: Pokemon[]}) => this.pokemons = data.results);
+    }
+
+    gotToPokemonDetails(pokemon: Pokemon) {
+        const id = this.getPokemonIdFromUrl(pokemon.url);
+        this.router.navigate([`/pokedex/${id}`]);
     }
 
     //getPokemons() {

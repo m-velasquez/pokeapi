@@ -6,7 +6,7 @@
 
     <div class="nextPokemons">
         <span>Offset: </span>
-        <input type="number" [(ngModel)]="offset">
+        <input type="number" [(ngModel)]="offsetUI">
         <span>Limit: </span>
         <input type="number" [(ngModel)]="limit">
         <span>
@@ -19,7 +19,8 @@
     <div>
         <div class="pokemons">
             <div class="pokemon" [ngStyle]="{'background-color': getPokemonColor(pokemon)}"
-                *ngFor="let pokemon of pokemons">
+                *ngFor="let pokemon of pokemons"
+                (click)="gotToPokemonDetails(pokemon)">
                 <img [src]="getImageUri(pokemon)" [alt]="pokemon.name">
                 <p [ngStyle]="{'color': getTextColor(pokemon)}">{{pokemon.name | titlecase}}</p>
             </div>

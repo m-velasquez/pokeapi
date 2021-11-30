@@ -7,6 +7,7 @@ import { PokemonListComponent } from './pokemon-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { PokemonDetailComponent } from './profile/pokemon-detail.component';
 import { NotFoundComponent } from '../common/not-found.component';
+import { PokemonRoutingModule } from './pokemon-routing.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,8 @@ import { NotFoundComponent } from '../common/not-found.component';
   ],
   exports: [
     PokemonListComponent, 
+    PokemonDetailComponent,
+    PokemonRoutingModule
   ],
   providers: [],
   bootstrap: []

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient} from '@angular/common/http';
 //import { dataPokemons } from "./mockdata";
 import { Observable, Subscriber } from "rxjs";
-import { Pokemon } from "../utils/types";
+import { Pokemon, PokemonDetail } from "../utils/types";
 
 @Injectable({
     providedIn: 'root'
@@ -10,6 +10,11 @@ import { Pokemon } from "../utils/types";
 
 export class PokemonService{
     constructor(private http: HttpClient) {}
+
+    getPokemon(id: string) {
+        return this.http.get(`https://pokeapi.co/api/v2/pokemon/${id}`) as Observable<PokemonDetail>;
+    }
+
 
     // getPokemonList(offset: number, limit: number) : Promise<Pokemon>{
     //     return new Promise((resolve, reject) => {
