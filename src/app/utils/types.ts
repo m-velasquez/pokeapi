@@ -18,5 +18,11 @@ export type PokemonDetail = {
     name: string
     order: number
     past_types: any[]
+    types: {
+        type: {
+            name: string,
+            url: string
+        }
+    }[]
     species: {name: string, url: string}
 }

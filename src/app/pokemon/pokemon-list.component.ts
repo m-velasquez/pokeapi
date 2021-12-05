@@ -27,15 +27,6 @@ export class PokemonListComponent implements OnInit {
         this.pokemonsList = this.pokemons;
     }   
 
-    // {
-    //     result: [
-    //         {
-    //             name,
-    //             url
-    //         }
-    //     ]
-    // }
-
     getPokemons() {
         this.pokemonService.getPokemonList(this.offset, this.limit)
         .subscribe((data: {results: Pokemon[]}) => this.pokemons = data.results);

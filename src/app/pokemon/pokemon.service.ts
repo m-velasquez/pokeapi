@@ -15,6 +15,10 @@ export class PokemonService{
         return this.http.get(`https://pokeapi.co/api/v2/pokemon/${id}`) as Observable<PokemonDetail>;
     }
 
+    getPokemonSpecies(id: string) {
+        return this.http.get(`https://pokeapi.co/api/v2/pokemon-species/${id}`);
+    }
+
 
     // getPokemonList(offset: number, limit: number) : Promise<Pokemon>{
     //     return new Promise((resolve, reject) => {
