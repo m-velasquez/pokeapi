@@ -4,6 +4,11 @@
         <input type="text" [(ngModel)]="search" (ngModelChange)="searchPokemons()">
     </div>
 
+    <div>
+        <pokemon-generation (refreshPokemons)="displayByGeneration($event)">
+        </pokemon-generation>
+    </div>
+
     <div class="nextPokemons">
         <span>Offset: </span>
         <input type="number" [(ngModel)]="offsetUI">
@@ -17,18 +22,14 @@
     </div>
 
     <div>
-        <div class="pokemons">
-            <div class="pokemon" [ngStyle]="{'background-color': getPokemonColor(pokemon)}"
-                *ngFor="let pokemon of pokemons"
-                (click)="gotToPokemonDetails(pokemon)">
-                <img [src]="getImageUri(pokemon)" [alt]="pokemon.name">
-                <p [ngStyle]="{'color': getTextColor(pokemon)}">{{pokemon.name | titlecase}}</p>
+        <cdk-virtual-scroll-viewport #scroller itemSize="20" class="virtual-content">
+            <div class="pokemons">
+                <pokemon-card *cdkVirtualFor="let pokemon of pokemons" [pokemon]="pokemon">
+                </pokemon-card>
             </div>
-        </div>
-
-        <not-found *ngIf="!pokemons.length"></not-found>
-
-
-
+        </cdk-virtual-scroll-viewport>
     </div>
+
+    <not-found *ngIf="!pokemons.length"></not-found>
+
 </div>

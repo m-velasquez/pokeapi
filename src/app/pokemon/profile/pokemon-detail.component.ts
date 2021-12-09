@@ -27,12 +27,14 @@ export class PokemonDetailComponent {
     constructor(private pokemonService: PokemonService, private route: ActivatedRoute, private location: Location) {}
 
     ngOnInit(): void {
-        this.id = this.route.snapshot.paramMap.get('id') || '1';
-        this.pokemonDetailSubscription = this.pokemonService.getPokemon(this.id).subscribe(pokemonDetail => {
+        this.pokemonDetail = this.route.snapshot.data['pokemon'];
 
-            this.pokemonDetail = pokemonDetail
-        //console.log(this.pokemonDetail);
-        });
+        // this.id = this.route.snapshot.paramMap.get('id') || '1';
+        // this.pokemonDetailSubscription = this.pokemonService.getPokemon(this.id).subscribe(pokemonDetail => {
+
+        //     this.pokemonDetail = pokemonDetail
+        // //console.log(this.pokemonDetail);
+        // });
 
         this.pokemonSpeciesSubscription = this.pokemonService.getPokemonSpecies(this.id).subscribe((pokemonSpecies: any) => {
             this.pokemonSpecies = pokemonSpecies;

@@ -1,8 +1,9 @@
-import { Component, OnInit } from "@angular/core";
-import { pokemonColorMap } from './pokemonColorHash';
+import { AfterViewInit, Component, NgZone, OnInit, ViewChild } from "@angular/core";
 import { Pokemon } from '../utils/types';
 import { PokemonService } from "./pokemon.service";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
+import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
+import { filter, map, pairwise, throttleTime } from "rxjs";
 
 
 @Component({
@@ -11,70 +12,54 @@ import { Router } from "@angular/router";
     styleUrls: ['./pokemon-list.component.less']
 })
 
-export class PokemonListComponent implements OnInit {
+export class PokemonListComponent implements OnInit, AfterViewInit {
     pokemons: Pokemon[] = [];
     private pokemonsList: Pokemon[] = [];
     search: string = '';
     offsetUI: number = +'';
     limit: number = +'';
     offset: number = this.offsetUI;
+    @ViewChild('scroller') scroller?: CdkVirtualScrollViewport
 
-    constructor(private pokemonService: PokemonService, private router: Router) {}
+    constructor(
+        private pokemonService: PokemonService, 
+        private router: ActivatedRoute, 
+        private ngZone: NgZone) {}
 
     ngOnInit(): void {
         
-        this.getPokemons();
+        //this.getPokemons();
+        this.pokemons = this.router.snapshot.data['pokemons'].results;
         this.pokemonsList = this.pokemons;
-    }   
+    }
+    
+    displayByGeneration(pokemons: Pokemon[]) {
+        this.pokemons = pokemons;
+    }
+
+    ngAfterViewInit() : void {
+        this.scroller?.elementScrolled()
+        .pipe(
+            map(() => this.scroller?.measureScrollOffset('bottom')),
+            pairwise(), //[1, 2, 3, 4] => [11, 2] [3, 4]
+            filter(([y1, y2]) => {
+                return (y2! < y1! && y2! < 200)
+            }),
+            throttleTime(200)
+        ).subscribe(() => {
+            this.ngZone.run(() => {
+                this.getPokemons();
+            })
+        })
+    }
 
     getPokemons() {
-        this.pokemonService.getPokemonList(this.offset, this.limit)
-        .subscribe((data: {results: Pokemon[]}) => this.pokemons = data.results);
-    }
-
-    gotToPokemonDetails(pokemon: Pokemon) {
-        const id = this.getPokemonIdFromUrl(pokemon.url);
-        this.router.navigate([`/pokedex/${id}`]);
-    }
-
-    //getPokemons() {
-    //    this.pokemonService.getPokemonList(this.offset, this.limit)
-    //        .then(data => this.pokemons = data)
-    //}
-
-    // async getPokemons() : Promise<void> {
-    //     this.pokemons = await this.pokemonService.getPokemonList(this.offset, this.limit);
-    // }
-
-    getImageUri(pokemon: Pokemon) {
-        return this.pokemonService.getPokemonImageUri(this.getPokemonIdFromUrl(pokemon.url));
-    }
-
-    getPokemonColor(pokemon: Pokemon) {
-        const id = this.getPokemonIdFromUrl(pokemon.url);
-        return pokemonColorMap[id];
-    }
-
-    getPokemonIdFromUrl(url: string) {
-        const parseUrl = url.split('/'),
-            id = parseUrl[parseUrl.length - 2];
-        return +id;
-    }
-
-    getTextColor(pokemon: Pokemon) {
-        const pokemonColor = this.getPokemonColor(pokemon);
-
-        switch(pokemonColor) {
-            case '#fbf6f6':
-            case '#f0f060e6':
-                return 'black';
-            default:
-                return 'white';
-        }
-    }
-
-    nextPokemons() : void {
         this.offset += this.limit;
+        this.pokemonService.getPokemonList(this.offset, this.limit)
+        .subscribe((data: {results: Pokemon[]}) => this.pokemons = [...this.pokemons, ...data.results]);
+    }
+    
+    nextPokemons() : void {
         this.getPokemons();
     }
 
