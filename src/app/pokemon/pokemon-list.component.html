@@ -5,7 +5,9 @@
     </div>
 
     <div>
-        <pokemon-generation (refreshPokemons)="displayByGeneration($event)">
+        <pokemon-generation 
+            [games]="generations"
+            (refreshPokemons)="displayByGeneration($event)">
         </pokemon-generation>
     </div>
 

@@ -25,9 +25,9 @@
 </div>
 
 <div *ngIf="!!pokemonSpecies">
-    <p>Pokemon Name by Language: {{getNameByLanguage(pokemonSpecies?.names)}}</p>
+    <p>Pokemon Name by Language: {{getNameByLanguage(pokemonSpecies.names)}}</p>
     <div class="gameDescription" *ngFor="let description of gameDescriptions">
-        <img [src]="getGameImage(description.version.name)" alt="description.version.name">
+        <img [src]="getGameImage(description.version.name)" alt="description.version">
         <p>{{description.flavor_text}}</p>
     </div>
 </div>

@@ -15,6 +15,7 @@ import { filter, map, pairwise, throttleTime } from "rxjs";
 export class PokemonListComponent implements OnInit, AfterViewInit {
     pokemons: Pokemon[] = [];
     private pokemonsList: Pokemon[] = [];
+    generations: [] = [];
     search: string = '';
     offsetUI: number = +'';
     limit: number = +'';
@@ -28,8 +29,9 @@ export class PokemonListComponent implements OnInit, AfterViewInit {
 
     ngOnInit(): void {
         
-        //this.getPokemons();
-        this.pokemons = this.router.snapshot.data['pokemons'].results;
+        const pokemons = this.router.snapshot.data['pokemons']
+        this.pokemons = pokemons[0].results;
+        this.generations = pokemons[1].results;
         this.pokemonsList = this.pokemons;
     }
     

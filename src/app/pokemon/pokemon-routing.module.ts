@@ -10,7 +10,7 @@ const routes: Routes = [
         path: 'pokedex/:id', 
         component: PokemonDetailComponent,
         resolve: {
-            pokemon: PokemonResolverService
+            details: PokemonResolverService
         }
     },
     {

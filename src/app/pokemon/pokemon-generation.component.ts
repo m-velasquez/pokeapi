@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output , OnInit} from "@angular/core";
+import { Component, EventEmitter, Output , OnInit, Input} from "@angular/core";
 import { Pokemon } from "../utils/types";
 import { getPokemonIdFromUrl } from "./pokemon-helper";
 import { PokemonService } from "./pokemon.service";
@@ -10,7 +10,7 @@ import { PokemonService } from "./pokemon.service";
 })
 
 export class PokemonGenerationComponent implements OnInit {
-    games: {name: string, url: string}[] = [];
+    @Input() games: {name: string, url: string}[] = [];
     generationName: string = '';
     selectedGame: string = '';
     @Output() refreshPokemons = new EventEmitter<Pokemon[]>();
@@ -18,9 +18,6 @@ export class PokemonGenerationComponent implements OnInit {
     constructor (private pokemonService: PokemonService) {}
 
     ngOnInit() : void {
-        this.pokemonService.getGeneration().subscribe((games: any) => {
-            this.games = games.results;
-        });
     }
 
     chooseGame() {
