@@ -53,7 +53,9 @@ const materialModule = [
     ...materialModule
   ],
   exports: [
-    PokemonRoutingModule
+    PokemonRoutingModule,
+    MenuComponent,
+    HeaderComponent
   ],
   providers: [StyleManagerService],
   bootstrap: []

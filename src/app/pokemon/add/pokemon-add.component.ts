@@ -19,8 +19,7 @@ export class PokemonAddComponent implements OnInit {
             '', Validators.required
         ],
         address: this.fb.group({
-            //street: ['', forbiddenNameValidator(/\w+/g)],
-            street: [''],
+            street: ['', forbiddenNameValidator(/\d+/g)],
             city: [''],
             state: [''],
             zip: ['']
