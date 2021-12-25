@@ -1,0 +1,68 @@
+<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+    <h2>Basi Information</h2>
+    <div>
+        <mat-form-field appearance="fill">
+            <mat-label for="name">Name</mat-label>
+            <input id="name" type="text" formControlName="pokemonName" matInput>
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field appearance="fill">
+            <mat-label for="description">Description</mat-label>
+            <input id="description" type="text" formControlName="pokemonDescription" matInput>
+        </mat-form-field>
+    </div>
+
+    <div formGroupName="address">
+        <h2>Address</h2>
+        <div>
+            <mat-form-field appearance="fill">
+                <mat-label for="street">Street</mat-label>
+                <input id="street" type="text" formControlName="street" matInput>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field appearance="fill">
+                <mat-label for="city">City</mat-label>
+                <input id="city" type="text" formControlName="city" matInput>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field appearance="fill">
+                <mat-label for="state">State</mat-label>
+                <input id="state" type="text" formControlName="state" matInput>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field appearance="fill">
+                <mat-label for="zip">Zip</mat-label>
+                <input id="zip" type="text" formControlName="zip" matInput>
+            </mat-form-field>
+        </div>
+
+        <div formArrayName="types">
+            <h2>Types</h2>
+            <button mat-raised-button 
+                color="primary" 
+                type="button" 
+                (click)="addType()"> + AddAnother Type
+            </button>
+
+            <div *ngFor="let type of types.controls; let i=index">
+                <mat-form-field appearance="fill">
+                    <mat-label>Type</mat-label>
+                    <input id="types-{{i}}" type="text" [formControlName]="i" matInput>
+                </mat-form-field>
+            </div>
+
+        </div>
+    </div>
+    <p>Complete form</p>
+    <button mat-raised-button 
+        type="submit" 
+        color="accent" 
+        [disabled]="profileForm.invalid">Submit
+    </button>
+</form>
+
+<p>Form Status: {{profileForm.status}}</p>

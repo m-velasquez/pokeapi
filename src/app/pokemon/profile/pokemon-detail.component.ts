@@ -1,13 +1,12 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { Location } from "@angular/common";
 import { ActivatedRoute } from "@angular/router";
 import { Subscription } from "rxjs";
-import { PokemonDetail, PokemonSpecies } from "src/app/utils/types";
+import { Pokemon, PokemonDetail, PokemonSpecies } from "src/app/utils/types";
 import { pokemonTypeColorMap } from "../pokemonColorHash";
 import { pokemonImageHash } from "../pokemonGameImgHash";
 import { PokemonService } from "../pokemon.service";
-import { isNgTemplate } from "@angular/compiler";
-import { getPokemonImageUri } from "../pokemon-helper";
+import { getPokemonIdFromUrl, getPokemonImageUri } from "../pokemon-helper";
 
 @Component({
     selector: 'pokemon-detail',
@@ -16,7 +15,6 @@ import { getPokemonImageUri } from "../pokemon-helper";
 })
 
 export class PokemonDetailComponent implements OnInit, OnDestroy {
-    id: string = '1';
     pokemonDetail?: PokemonDetail;
     pokemonSpecies?: PokemonSpecies;
     gameDescriptions?: any; 
@@ -31,7 +29,8 @@ export class PokemonDetailComponent implements OnInit, OnDestroy {
         const details = this.route.snapshot.data['details'];
         this.pokemonDetail = details[0] || {};
         this.pokemonSpecies = details[1] || {};
-        this.gameDescriptions = this.filterDescriptionByLanguage(this.pokemonSpecies);
+        this.gameDescriptions = this.filterDescriptionsByLanguage(this.pokemonSpecies);
+        //console.log(this.pokemonSpecies);
     }
 
     getColorByType(type: string) {
@@ -43,7 +42,7 @@ export class PokemonDetailComponent implements OnInit, OnDestroy {
     }
 
     getImageUri() {
-        return getPokemonImageUri(+this.id);
+        return getPokemonImageUri(this.pokemonDetail!.id);
     }
 
     getGameImage(name: string) {
@@ -56,12 +55,12 @@ export class PokemonDetailComponent implements OnInit, OnDestroy {
         return found?.name || 'unknown';
     }
 
-    filterDescriptionByLanguage(species: any) {
-        species.flavor_text_entries.filter((item: any) => item.language.name === this.language);
+    filterDescriptionsByLanguage(species: any) {
+        return species.flavor_text_entries.filter((item: any) => item.language.name === this.language);
     }
 
     refreshDescriptions() {
-        this.gameDescriptions = this.filterDescriptionByLanguage(this.pokemonSpecies);
+        this.gameDescriptions = this.filterDescriptionsByLanguage(this.pokemonSpecies);
     }
 
     ngOnDestroy() {

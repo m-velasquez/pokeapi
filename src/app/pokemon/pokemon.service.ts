@@ -38,7 +38,7 @@ export class PokemonService{
     //     return `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${imageId}.png`;
     // }
 
-    getGenerationById(id: number) {
+    getGenerationById(id: string) {
         return this.http.get(`https://pokeapi.co/api/v2/generation/${id}`);
     }
 

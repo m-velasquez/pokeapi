@@ -1,32 +1,32 @@
 export type Pokemon = {
-    name: string,
-    url: string
-}
+  name: string, 
+  url: string
+};
+
+type Sprite = string | null;
 
 export type PokemonDetail = {
-    abilities: any[]
-    base_experience: number
-    forms: any[]
-    game_indices: any[]
-    height: number
-    weight: number
-    held_items: any[]
-    id: number
-    is_default: boolean
-    location_area_encounters: string
-    moves: any[]
-    name: string
-    order: number
-    past_types: any[]
-    types: {
-        slot: number,
-        type: {
-            name: string,
-            url: string
-        }
-    }[]
-    species: {name: string, url: string}
-}
+  abilities: any[]
+  base_experience: number
+  forms: any[]
+  game_indices: any[]
+  height: number
+  held_items: any[]
+  id: string
+  is_default: boolean
+  location_area_encounters: string
+  moves: any[]
+  name: string
+  order: number
+  past_types: any[]
+  species: {name: string, url: string},
+  //todo
+  types: {
+    slot: number,
+    type: {name: string, url: string}
+  }[]
+  weight: number
+};
 
 type LangInfo =  {name: string, url: string};
 
@@ -71,4 +71,9 @@ export type PokemonSpecies = {
     is_default: boolean
     pokemon: {name: string, url: string}
   }[]
+}
+
+export type Option = {
+  label: string;
+  value: string;
 }

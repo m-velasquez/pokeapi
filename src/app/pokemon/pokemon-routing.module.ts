@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+import { PokemonAddComponent } from "./add/pokemon-add.component";
 import { PokemonListComponent } from "./pokemon-list.component";
 import { PokemonResolverService } from "./pokemon-resolver.service";
 import { PokemonsResolverService } from "./pokemons-resolver.service";
@@ -20,11 +21,14 @@ const routes: Routes = [
             pokemons: PokemonsResolverService
         }
     },
-    {path: '', redirectTo: 'pokedex', pathMatch: 'full'}
+    {
+        path: 'add-pokemon', 
+        component: PokemonAddComponent
+    }
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
+    imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
 

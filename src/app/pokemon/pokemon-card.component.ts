@@ -41,7 +41,7 @@ export class PokemonCardComponent implements OnInit {
         }
     }
 
-    gotToPokemonDetails(pokemon: Pokemon) {
+    goToPokemonDetails(pokemon: Pokemon) {
         const id = getPokemonIdFromUrl(pokemon.url);
         this.router.navigate([`/pokedex/${id}`]);
     }

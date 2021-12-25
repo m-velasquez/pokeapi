@@ -1,4 +1,5 @@
-<div>
+<header></header>
+<div class="mat-drawer-container">
     <div>
         <span>Search: </span>
         <input type="text" [(ngModel)]="search" (ngModelChange)="searchPokemons()">
@@ -6,31 +7,20 @@
 
     <div>
         <pokemon-generation 
-            [games]="generations"
+            [games]="generations" 
             (refreshPokemons)="displayByGeneration($event)">
         </pokemon-generation>
+        <button (click)="addPokemon()">Add Pokemon</button>
     </div>
 
-    <div class="nextPokemons">
-        <span>Offset: </span>
-        <input type="number" [(ngModel)]="offsetUI">
-        <span>Limit: </span>
-        <input type="number" [(ngModel)]="limit">
-        <span>
-            <button *ngIf="pokemons.length" (click)="nextPokemons()">
-                Next
-            </button>
-        </span>
-    </div>
-
-    <div>
-        <cdk-virtual-scroll-viewport #scroller itemSize="20" class="virtual-content">
-            <div class="pokemons">
-                <pokemon-card *cdkVirtualFor="let pokemon of pokemons" [pokemon]="pokemon">
-                </pokemon-card>
-            </div>
-        </cdk-virtual-scroll-viewport>
-    </div>
+    <cdk-virtual-scroll-viewport #scroller itemSize="20" class="virtual-content">
+        <div class="pokemons">
+            <pokemon-card 
+                *cdkVirtualFor="let pokemon of pokemons" 
+                [pokemon]="pokemon">
+            </pokemon-card>
+        </div>
+    </cdk-virtual-scroll-viewport>
 
     <not-found *ngIf="!pokemons.length"></not-found>
 

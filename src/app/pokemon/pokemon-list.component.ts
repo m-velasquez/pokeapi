@@ -17,19 +17,19 @@ export class PokemonListComponent implements OnInit, AfterViewInit {
     private pokemonsList: Pokemon[] = [];
     generations: [] = [];
     search: string = '';
-    offsetUI: number = +'';
-    limit: number = +'';
-    offset: number = this.offsetUI;
+    limit: number = 20;
+    offset: number = 0;
     @ViewChild('scroller') scroller?: CdkVirtualScrollViewport
 
     constructor(
         private pokemonService: PokemonService, 
-        private router: ActivatedRoute, 
+        private route: ActivatedRoute, 
+        private router: Router, 
         private ngZone: NgZone) {}
 
     ngOnInit(): void {
         
-        const pokemons = this.router.snapshot.data['pokemons']
+        const pokemons = this.route.snapshot.data['pokemons']
         this.pokemons = pokemons[0].results;
         this.generations = pokemons[1].results;
         this.pokemonsList = this.pokemons;
@@ -63,6 +63,10 @@ export class PokemonListComponent implements OnInit, AfterViewInit {
     
     nextPokemons() : void {
         this.getPokemons();
+    }
+
+    addPokemon() {
+        this.router.navigate(['add-pokemon']);
     }
 
     searchPokemons(){

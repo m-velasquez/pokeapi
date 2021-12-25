@@ -18,6 +18,9 @@ export class PokemonGenerationComponent implements OnInit {
     constructor (private pokemonService: PokemonService) {}
 
     ngOnInit() : void {
+        this.pokemonService.getGeneration().subscribe((games: any) => {
+            this.games = games.results;
+        });
     }
 
     chooseGame() {
@@ -25,7 +28,7 @@ export class PokemonGenerationComponent implements OnInit {
         this.pokemonService.getGenerationById(id)
             .subscribe((pokemons: any) => {
                 this.generationName = pokemons.main_region.name;
-                this.refreshPokemons.emit(pokemons.pokemons_species);
-            })
+                this.refreshPokemons.emit(pokemons.pokemon_species);
+            });
     }
 }
