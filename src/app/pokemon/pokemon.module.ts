@@ -11,6 +11,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatSliderModule } from '@angular/material/slider';
 
 import { HttpClientModule } from '@angular/common/http';
 import { PokemonDetailComponent } from './profile/pokemon-detail.component';
@@ -23,6 +24,7 @@ import { HeaderComponent } from '../common/header/header.component';
 import { StyleManagerService } from '../common/header/style-manager.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { PokemonAddComponent } from './add/pokemon-add.component';
+import { PokemonStatsComponent } from './stats/pokemon-stats.component';
 
 const materialModule = [
   MatToolbarModule,
@@ -30,7 +32,8 @@ const materialModule = [
   MatButtonModule,
   MatIconModule,
   MatFormFieldModule,
-  MatInputModule
+  MatInputModule,
+  MatSliderModule
 ]
 
 @NgModule({
@@ -42,7 +45,8 @@ const materialModule = [
     PokemonGenerationComponent,
     PokemonAddComponent,
     MenuComponent,
-    HeaderComponent
+    HeaderComponent,
+    PokemonStatsComponent
   ],
   imports: [
     BrowserModule,

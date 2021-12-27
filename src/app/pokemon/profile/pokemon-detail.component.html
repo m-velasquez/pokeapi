@@ -1,7 +1,7 @@
 <button (click)="goBack()">Go Back</button>
 
 <div class="pokemon-container">
-    <img [src]="getImageUri()" alt="pokemon">
+    <img class="pokemon-image" [src]="getImageUri()" alt="pokemon">
     <div>
         <p>Name: {{pokemonDetail?.name}}</p>
         <p>Height: {{pokemonDetail?.height}}</p>
@@ -17,6 +17,9 @@
         </div>
 
     </div>
+
+    <pokemon-stats></pokemon-stats>
+    
 </div>
 
 <div>

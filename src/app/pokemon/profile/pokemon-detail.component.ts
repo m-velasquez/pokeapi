@@ -30,7 +30,7 @@ export class PokemonDetailComponent implements OnInit, OnDestroy {
         this.pokemonDetail = details[0] || {};
         this.pokemonSpecies = details[1] || {};
         this.gameDescriptions = this.filterDescriptionsByLanguage(this.pokemonSpecies);
-        //console.log(this.pokemonSpecies);
+        //console.log(this.pokemonDetail);
     }
 
     getColorByType(type: string) {
