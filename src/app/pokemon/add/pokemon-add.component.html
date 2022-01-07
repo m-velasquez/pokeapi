@@ -1,5 +1,5 @@
 <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="mat-drawer-container">
-    <h2>Basi Information</h2>
+    <h2>Basic Information</h2>
     <div>
         <mat-form-field appearance="fill">
             <mat-label for="name">Name</mat-label>
@@ -61,7 +61,7 @@
     <button mat-raised-button 
         type="submit" 
         color="accent" 
-        [disabled]="!profileForm.invalid">Submit
+        [disabled]="profileForm.invalid">Submit
     </button>
 </form>
 

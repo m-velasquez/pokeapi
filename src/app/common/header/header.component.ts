@@ -33,6 +33,6 @@ export class HeaderComponent implements OnInit {
     }
 
     themeChangeHandler(theme: string) {
-        this.themeService.setStyle(theme)
+        this.themeService.setStyle(theme);
     }
 }
